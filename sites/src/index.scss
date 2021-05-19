@@ -1,15 +1,24 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 @import "antd/dist/antd.css";
+
+// or use sass
+@import "~@jswork/wsui-frame-wrapper/dist/index.scss";
+@import "~@jswork/wsui-scaleable-image/dist/index.scss";
+@import "~@jswork/react-fade-image/dist/style.scss";
+@import "~@jswork/react-upload-self/dist/style.scss";
+
+.react-upload-self {
+  width: 200px;
+  height: 200px;
+}

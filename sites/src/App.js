@@ -1,6 +1,21 @@
 import React from 'react';
 import { Form, Button } from 'antd';
 import FormBuilder from 'antd-form-builder';
+import ReactUploadSelf from '@jswork/react-upload-self';
+import nx from '@jswork/next';
+
+FormBuilder.defineWidget('react-upload-self', ({ value, onChange }) => {
+  const _value = nx.get(value, 'blobs[0]');
+  return (
+    <ReactUploadSelf
+      value={_value}
+      onChange={(e) => {
+        console.log(e);
+        onChange({ target: { value: e.target.value.blobs[0] } });
+      }}
+    />
+  );
+});
 
 export default () => {
   const meta = {
@@ -10,10 +25,10 @@ export default () => {
     },
     fields: [
       { key: 'username', label: 'User Name' },
+      { key: 'photo', label: 'Yourphoto', widget: 'react-upload-self' },
       { key: 'password', label: 'Password', widget: 'password' }
     ]
   };
-
 
   console.dir(FormBuilder);
 
