@@ -2,12 +2,18 @@ import ReactAntdFormSchema from '@jswork/react-ant-form-schema/src/main';
 import '@jswork/react-ant-form-schema/src/style.scss';
 import React, { useEffect } from 'react';
 import { Button, Form } from 'antd';
+import { NiceFormMeta } from '@ebay/nice-form-react';
 
 function App() {
   const [form] = Form.useForm();
   const [loading, setLoading] = React.useState(false);
-  const meta = {
+  const meta: NiceFormMeta = {
     columns: 1,
+    viewMode: false,
+    initialValues: {
+      username: 'admin-init',
+      password: '123456-initial',
+    },
     fields: [
       { key: 'username', label: 'User Name' },
       { key: 'password', label: 'Password', widget: 'password' },
@@ -35,8 +41,7 @@ function App() {
         loading={loading}
         form={form}
         meta={meta}
-        onFinish={(values) => console.log(values)}
-      >
+        onFinish={(values) => console.log(values)}>
         <Button type="primary" htmlType="submit">
           Submit
         </Button>
