@@ -30,10 +30,13 @@ function App() {
     <div className="m-10 p-4 shadow bg-gray-100 text-gray-800 hover:shadow-md transition-all">
       <div className="badge badge-warning absolute right-0 top-0 m-4">Build Time: {BUILD_TIME}</div>
       <ReactAntdFormSchema
+        className="mx-auto wp-8 p-5 bg-slate-200 rounded-lg"
+        footerClassName="mb-0"
         loading={loading}
         form={form}
         meta={meta}
-        onFinish={(values) => console.log(values)}>
+        onFinish={(values) => console.log(values)}
+      >
         <Button type="primary" htmlType="submit">
           Submit
         </Button>

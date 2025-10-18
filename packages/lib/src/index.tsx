@@ -33,13 +33,17 @@ export type ReactAntdFormSchemaProps = {
    */
   footer?: ReactNode;
   /**
+   * The form content.
+   */
+  footerClassName?: string;
+  /**
    * Form loading status.
    */
   loading?: boolean;
 } & FormProps;
 
 const ReactAntdFormSchema: FC<ReactAntdFormSchemaProps> = (props) => {
-  const { className, meta, header, footer, children, loading, ...rest } = props;
+  const { className, meta, header, footer, children, loading, footerClassName, ...rest } = props;
   const footerNode = footer || (children as ReactNode);
   const _meta = deepMerge(DEFAULT_META, meta);
   const _offset = _meta?.wrapperProps?.labelCol?.span || 4;
@@ -49,7 +53,10 @@ const ReactAntdFormSchema: FC<ReactAntdFormSchemaProps> = (props) => {
       <Spin spinning={loading}>
         {header}
         <NiceForm meta={_meta} />
-        <Form.Item wrapperCol={{ offset: _offset }} style={{ marginBottom: 0 }}>
+        <Form.Item
+          wrapperCol={{ offset: _offset }}
+          className={footerClassName}
+          style={{ marginBottom: 0 }}>
           {footerNode}
         </Form.Item>
       </Spin>
