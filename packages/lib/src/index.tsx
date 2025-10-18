@@ -32,6 +32,10 @@ export type ReactAntdFormSchemaProps = {
    * The footer content.
    */
   footer?: ReactNode;
+  /**
+   * Event handler when form is initialized.
+   */
+  onInit?: ({ form, meta }) => void;
 } & FormProps;
 
 
@@ -47,6 +51,11 @@ export default class ReactAntdFormSchema extends Component<ReactAntdFormSchemaPr
 
   get form() {
     return this.formRef.current;
+  }
+
+  componentDidMount() {
+    const { onInit } = this.props;
+    onInit?.({ form: this.form, meta: this.meta });
   }
 
   render() {
