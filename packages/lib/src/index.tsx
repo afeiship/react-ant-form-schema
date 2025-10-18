@@ -1,6 +1,6 @@
 import cx from 'classnames';
-import React, { Component, ReactNode } from 'react';
-import { Form, FormInstance, FormProps } from 'antd';
+import React, { FC, ReactNode } from 'react';
+import { Form, FormProps, Spin } from 'antd';
 import NiceForm, { NiceFormMeta } from '@ebay/nice-form-react';
 import { deepMerge } from './utils';
 
@@ -33,47 +33,28 @@ export type ReactAntdFormSchemaProps = {
    */
   footer?: ReactNode;
   /**
-   * Event handler when form is initialized.
+   * Form loading status.
    */
-  onInit?: ({ form, meta }) => void;
+  loading?: boolean;
 } & FormProps;
 
+const ReactAntdFormSchema: FC<ReactAntdFormSchemaProps> = (props) => {
+  const { className, meta, header, footer, children, loading, ...rest } = props;
+  const footerNode = footer || (children as ReactNode);
+  const _meta = deepMerge(DEFAULT_META, meta);
+  const _offset = _meta?.wrapperProps?.labelCol?.span || 4;
 
-export default class ReactAntdFormSchema extends Component<ReactAntdFormSchemaProps> {
-  static displayName = CLASS_NAME;
-  static version = '__VERSION__';
-  static defaultProps = {};
-  private formRef = React.createRef<FormInstance<any>>();
-
-  get meta() {
-    return deepMerge(DEFAULT_META, this.props.meta);
-  }
-
-  get form() {
-    return this.formRef.current;
-  }
-
-  componentDidMount() {
-    const { onInit } = this.props;
-    onInit?.({ form: this.form, meta: this.meta });
-  }
-
-  render() {
-    const { className, meta, header, footer, children, ...rest } = this.props;
-    const footerNode = footer || children as ReactNode;
-    const _offset = this.meta?.wrapperProps?.labelCol?.span || 4;
-
-    return (
-      <Form ref={this.formRef}
-            data-component={CLASS_NAME}
-            className={cx(CLASS_NAME, className)}
-            {...rest}>
+  return (
+    <Form data-component={CLASS_NAME} className={cx(CLASS_NAME, className)} {...rest}>
+      <Spin spinning={loading}>
         {header}
-        <NiceForm meta={this.meta} />
+        <NiceForm meta={_meta} />
         <Form.Item wrapperCol={{ offset: _offset }} style={{ marginBottom: 0 }}>
           {footerNode}
         </Form.Item>
-      </Form>
-    );
-  }
-}
+      </Spin>
+    </Form>
+  );
+};
+
+export default ReactAntdFormSchema;
