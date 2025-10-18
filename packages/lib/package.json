@@ -1,6 +1,6 @@
 {
   "name": "@jswork/react-ant-form-schema",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/main.cjs.js",
   "module": "dist/main.esm.js",
   "types": "dist/main.d.ts",
@@ -40,5 +40,12 @@
   },
   "dependencies": {
     "@ebay/nice-form-react": "^2.0.3"
-  }
+  },
+  "keywords": [
+    "form",
+    "schema",
+    "builder",
+    "ant",
+    "react"
+  ]
 }
