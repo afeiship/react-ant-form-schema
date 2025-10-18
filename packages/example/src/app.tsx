@@ -1,6 +1,6 @@
 import ReactAntdFormSchema from '@jswork/react-ant-form-schema/src/main';
 import '@jswork/react-ant-form-schema/src/style.scss';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'antd';
 
 function App() {
@@ -11,6 +11,13 @@ function App() {
       { key: 'password', label: 'Password', widget: 'password' },
     ],
   };
+
+  useEffect(() => {
+    // simulate async fetch data
+    setTimeout(() => {
+      console.log('fetch data done.');
+    }, 1000);
+  }, []);
 
   return (
     <div className="m-10 p-4 shadow bg-gray-100 text-gray-800 hover:shadow-md transition-all">

@@ -20,8 +20,17 @@ export type ReactAntdFormSchemaProps = {
    * @default ''
    */
   className?: string;
+  /**
+   * The form schema meta data.
+   */
   meta: NiceFormMeta;
+  /**
+   * The header content.
+   */
   header?: ReactNode;
+  /**
+   * The footer content.
+   */
   footer?: ReactNode;
 } & FormProps;
 
@@ -32,11 +41,18 @@ export default class ReactAntdFormSchema extends Component<ReactAntdFormSchemaPr
   static defaultProps = {};
   private formRef = React.createRef<FormInstance<any>>();
 
+  get meta() {
+    return deepMerge(DEFAULT_META, this.props.meta);
+  }
+
+  get form() {
+    return this.formRef.current;
+  }
+
   render() {
     const { className, meta, header, footer, children, ...rest } = this.props;
     const footerNode = footer || children as ReactNode;
-    const _meta = deepMerge(DEFAULT_META, meta);
-    const _offset = _meta?.wrapperProps?.labelCol?.span || 4;
+    const _offset = this.meta?.wrapperProps?.labelCol?.span || 4;
 
     return (
       <Form ref={this.formRef}
@@ -44,7 +60,7 @@ export default class ReactAntdFormSchema extends Component<ReactAntdFormSchemaPr
             className={cx(CLASS_NAME, className)}
             {...rest}>
         {header}
-        <NiceForm meta={_meta} />
+        <NiceForm meta={this.meta} />
         <Form.Item wrapperCol={{ offset: _offset }} style={{ marginBottom: 0 }}>
           {footerNode}
         </Form.Item>
