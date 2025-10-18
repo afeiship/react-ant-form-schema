@@ -24,6 +24,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",
+    "antd": "^5.27.5",
     "autoprefixer": "^10.4.19",
     "daisyui": "^4.10.5",
     "eslint": "^8.45.0",
