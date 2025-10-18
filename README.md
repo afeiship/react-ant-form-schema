@@ -1,2 +1,2 @@
-# antd-form-builder-notes
-> Notes for antd-form-builder.
+# react-ant-form-schema
+> Antd form builder for react.

@@ -1,14 +1,20 @@
 {
-  "name": "@jswork/antd-form-builder-notes",
+  "name": "react-ant-form-schema",
   "version": "1.0.0",
-  "description": "Notes for antd-form-builder.",
-  "homepage": "https://github.com/afeiship/antd-form-builder-notes",
-  "author": {
-    "name": "afeiship",
-    "email": "1290657123@qq.com"
-  },
-  "license": "MIT",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
+  "description": "Antd form builder for react.",
+  "homepage": "https://js.work",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "cd packages/example && yarn run dev",
+    "predocs": "rm -rf docs && node scripts/markdown.js",
+    "docs": "cd packages/example && yarn run build",
+    "postdocs": "cp -R packages/example/dist docs",
+    "preln:build": "yarn run docs",
+    "ln:build": "cd packages/lib && yarn run build",
+    "ln:publish": "cd packages/lib && yarn run release"
   }
 }
