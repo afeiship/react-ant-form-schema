@@ -3,7 +3,9 @@ import cx from 'classnames';
 import React, { ReactNode, Component, HTMLAttributes } from "react";
 
 const CLASS_NAME = "react-ant-form-schema";
+
 // const uuid = () => Math.random().toString(36).substring(2, 9);
+
 export type ReactAntdFormSchemaProps = {
   /**
    * The extended className for component.

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "module": "esnext",
+    "module": "node16",
     "target": "es5",
     "lib": [
       "es6",
@@ -13,7 +13,7 @@
     "allowJs": false,
     "jsx": "react",
     "declaration": true,
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
