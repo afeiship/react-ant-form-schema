@@ -16,6 +16,15 @@ function App() {
     fields: [
       { key: 'username', label: 'User Name' },
       { key: 'password', label: 'Password', widget: 'password' },
+      {
+        key: 'cities',
+        label: 'Cities',
+        widget: 'form-list',
+        listItemMeta: {
+          widget: 'select',
+          options: ['Beijing', 'Shanghai', 'Nanjing'],
+        },
+      },
     ],
   };
 
