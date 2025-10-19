@@ -42,8 +42,19 @@ export type ReactAntdFormSchemaProps = {
   loading?: boolean;
 } & FormProps;
 
+const defaultProps = {
+  className: '',
+  header: null,
+  footer: null,
+  footerClassName: '',
+  loading: false,
+};
+
 const ReactAntdFormSchema: FC<ReactAntdFormSchemaProps> = (props) => {
-  const { className, meta, header, footer, children, loading, footerClassName, ...rest } = props;
+  const { className, meta, header, footer, children, loading, footerClassName, ...rest } = {
+    ...defaultProps,
+    ...props,
+  };
   const footerNode = footer || (children as ReactNode);
   const _meta = deepMerge(DEFAULT_META, meta);
   const _offset = _meta?.wrapperProps?.labelCol?.span || 4;

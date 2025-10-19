@@ -48,7 +48,6 @@ function App() {
       <ReactAntdFormSchema
         className="mx-auto wp-9 p-5 bg-slate-200 rounded-lg"
         footerClassName="mb-0"
-        loading={loading}
         form={form}
         meta={meta}
         onFinish={(values) => console.log(values)}>
