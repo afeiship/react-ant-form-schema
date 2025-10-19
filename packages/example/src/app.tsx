@@ -1,5 +1,4 @@
 import ReactAntdFormSchema from '@jswork/react-ant-form-schema/src/main';
-import '@jswork/react-ant-form-schema/src/style.scss';
 import React, { useEffect } from 'react';
 import { Button, Form } from 'antd';
 import { NiceFormMeta } from '@ebay/nice-form-react';
