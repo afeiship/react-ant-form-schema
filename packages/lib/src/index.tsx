@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import React, { FC, ReactNode } from 'react';
-import { Form, FormProps, Spin } from 'antd';
+import { Form, FormProps } from 'antd';
 import NiceForm, { NiceFormMeta } from '@ebay/nice-form-react';
 import { deepMerge } from './utils';
 
@@ -36,10 +36,6 @@ export type ReactAntdFormSchemaProps = {
    * The form content.
    */
   footerClassName?: string;
-  /**
-   * Form loading status.
-   */
-  loading?: boolean;
 } & FormProps;
 
 const defaultProps = {
@@ -47,11 +43,10 @@ const defaultProps = {
   header: null,
   footer: null,
   footerClassName: '',
-  loading: false,
 };
 
 const ReactAntdFormSchema: FC<ReactAntdFormSchemaProps> = (props) => {
-  const { className, meta, header, footer, children, loading, footerClassName, ...rest } = {
+  const { className, meta, header, footer, children, footerClassName, ...rest } = {
     ...defaultProps,
     ...props,
   };
@@ -61,16 +56,14 @@ const ReactAntdFormSchema: FC<ReactAntdFormSchemaProps> = (props) => {
 
   return (
     <Form data-component={CLASS_NAME} className={cx(CLASS_NAME, className)} {...rest}>
-      <Spin spinning={loading}>
-        {header}
-        <NiceForm meta={_meta} />
-        <Form.Item
-          wrapperCol={{ offset: _offset }}
-          className={footerClassName}
-          style={{ marginBottom: 0 }}>
-          {footerNode}
-        </Form.Item>
-      </Spin>
+      {header}
+      <NiceForm meta={_meta} />
+      <Form.Item
+        wrapperCol={{ offset: _offset }}
+        className={footerClassName}
+        style={{ marginBottom: 0 }}>
+        {footerNode}
+      </Form.Item>
     </Form>
   );
 };

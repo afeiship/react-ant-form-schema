@@ -1,6 +1,6 @@
 import ReactAntdFormSchema from '@jswork/react-ant-form-schema/src/main';
 import React, { useEffect } from 'react';
-import { Button, Form } from 'antd';
+import { Button, Card, Form } from 'antd';
 import NiceForm, { NiceFormMeta } from '@ebay/nice-form-react';
 
 function App() {
@@ -43,22 +43,24 @@ function App() {
   }, []);
 
   return (
-    <div className="m-10 p-4 shadow bg-gray-100 text-gray-800 hover:shadow-md transition-all">
+    <Card title="React Antd Form Schema" className="mx-auto wp-8" loading={loading}>
       <div className="badge badge-warning absolute right-0 top-0 m-4">Build Time: {BUILD_TIME}</div>
       <ReactAntdFormSchema
-        className="mx-auto wp-9 p-5 bg-slate-200 rounded-lg"
+        className="p-5 bg-slate-200 rounded-lg"
         footerClassName="mb-0"
         form={form}
         meta={meta}
         onFinish={(values) => console.log(values)}>
         <NiceForm
-          meta={{ fields: [{ key: 'ext-single-field', widgetProps: { placeholder: 'Single Field' } }] }}
+          meta={{
+            fields: [{ key: 'ext-single-field', widgetProps: { placeholder: 'Single Field' } }],
+          }}
         />
         <Button type="primary" htmlType="submit">
           Submit
         </Button>
       </ReactAntdFormSchema>
-    </div>
+    </Card>
   );
 }
 
