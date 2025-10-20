@@ -31,7 +31,8 @@
   "peerDependencies": {
     "classnames": "*",
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "antd": "^5.27.5"
   },
   "publishConfig": {
     "access": "public",
