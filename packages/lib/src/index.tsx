@@ -29,28 +29,23 @@ export type ReactAntdFormSchemaProps = {
    */
   header?: ReactNode;
   /**
-   * The footer content.
+   * The form actions className.
    */
-  footer?: ReactNode;
-  /**
-   * The form content.
-   */
-  footerClassName?: string;
+  actionsClassName?: string;
 } & FormProps;
 
 const defaultProps = {
   className: '',
   header: null,
-  footer: null,
-  footerClassName: '',
+  actionsClassName: '',
 };
 
 const ReactAntdFormSchema: FC<ReactAntdFormSchemaProps> = (props) => {
-  const { className, meta, header, footer, children, footerClassName, ...rest } = {
+  const { className, meta, header, children, actionsClassName, ...rest } = {
     ...defaultProps,
     ...props,
   };
-  const footerNode = footer || (children as ReactNode);
+  const footerNode = children as ReactNode;
   const _meta = deepMerge(DEFAULT_META, meta);
   const _offset = _meta?.wrapperProps?.labelCol?.span || 4;
 
@@ -60,7 +55,7 @@ const ReactAntdFormSchema: FC<ReactAntdFormSchemaProps> = (props) => {
       <NiceForm meta={_meta} />
       <Form.Item
         wrapperCol={{ offset: _offset }}
-        className={footerClassName}
+        className={actionsClassName}
         style={{ marginBottom: 0 }}>
         {footerNode}
       </Form.Item>

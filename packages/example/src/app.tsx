@@ -47,7 +47,6 @@ function App() {
       <div className="badge badge-warning absolute right-0 top-0 m-4">Build Time: {BUILD_TIME}</div>
       <ReactAntdFormSchema
         className="p-5 bg-slate-200 rounded-lg"
-        footerClassName="mb-0"
         form={form}
         meta={meta}
         onFinish={(values) => console.log(values)}>
