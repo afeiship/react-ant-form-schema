@@ -43,10 +43,14 @@ function App() {
   }, []);
 
   return (
-    <Card title="React Antd Form Schema" className="mx-auto wp-8" loading={loading}>
+    <Card
+      title="React Antd Form Schema"
+      className="mx-auto wp-8 mt-10"
+      classNames={{ body: 'bg-gray-100' }}
+      loading={loading}>
       <div className="badge badge-warning absolute right-0 top-0 m-4">Build Time: {BUILD_TIME}</div>
       <ReactAntdFormSchema
-        className="p-5 bg-slate-200 rounded-lg"
+        className="p-5"
         form={form}
         meta={meta}
         onFinish={(values) => console.log(values)}>
