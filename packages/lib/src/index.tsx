@@ -1,6 +1,6 @@
 import cx from 'classnames';
-import React, { FC, ReactNode } from 'react';
-import { Form, FormProps } from 'antd';
+import React, { FC, ReactNode, RefObject } from 'react';
+import { Form, FormInstance, FormProps } from 'antd';
 import NiceForm, { NiceFormMeta } from '@ebay/nice-form-react';
 import { deepMerge } from './utils';
 
@@ -34,27 +34,29 @@ const defaultProps: Partial<ReactAntdFormSchemaProps> = {
   actionsClassName: '',
 };
 
-const ReactAntdFormSchema: FC<ReactAntdFormSchemaProps> = (props) => {
-  const { className, meta, header, children, actionsClassName, ...rest } = {
-    ...defaultProps,
-    ...props,
-  };
-  const footerNode = children as ReactNode;
-  const _meta = deepMerge(DEFAULT_META, meta) as NiceFormMeta;
-  const _offset = _meta?.wrapperProps?.labelCol?.span || 4;
+const ReactAntdFormSchema: FC<ReactAntdFormSchemaProps> = React.forwardRef(
+  (props, ref: RefObject<FormInstance>) => {
+    const { className, meta, header, children, actionsClassName, ...rest } = {
+      ...defaultProps,
+      ...props,
+    };
+    const footerNode = children as ReactNode;
+    const _meta = deepMerge(DEFAULT_META, meta) as NiceFormMeta;
+    const _offset = _meta?.wrapperProps?.labelCol?.span || 4;
 
-  return (
-    <Form data-component={CLASS_NAME} className={cx(CLASS_NAME, className)} {...rest}>
-      {header}
-      <NiceForm meta={_meta} />
-      <Form.Item
-        wrapperCol={{ offset: _offset }}
-        className={actionsClassName}
-        style={{ marginBottom: 0 }}>
-        {footerNode}
-      </Form.Item>
-    </Form>
-  );
-};
+    return (
+      <Form data-component={CLASS_NAME} className={cx(CLASS_NAME, className)} ref={ref} {...rest}>
+        {header}
+        <NiceForm meta={_meta} />
+        <Form.Item
+          wrapperCol={{ offset: _offset }}
+          className={actionsClassName}
+          style={{ marginBottom: 0 }}>
+          {footerNode}
+        </Form.Item>
+      </Form>
+    );
+  }
+);
 
 export default ReactAntdFormSchema;
