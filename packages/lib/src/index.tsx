@@ -34,8 +34,8 @@ const defaultProps: Partial<ReactAntdFormSchemaProps> = {
   actionsClassName: '',
 };
 
-const ReactAntdFormSchema: FC<ReactAntdFormSchemaProps> = React.forwardRef(
-  (props, ref: RefObject<FormInstance>) => {
+const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaProps>(
+  (props, ref) => {
     const { className, meta, header, children, actionsClassName, ...rest } = {
       ...defaultProps,
       ...props,
