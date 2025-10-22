@@ -16,11 +16,6 @@ const DEFAULT_META = {
 
 export type ReactAntdFormSchemaProps = {
   /**
-   * The extended className for component.
-   * @default ''
-   */
-  className?: string;
-  /**
    * The form schema meta data.
    */
   meta: NiceFormMeta;
@@ -34,8 +29,7 @@ export type ReactAntdFormSchemaProps = {
   actionsClassName?: string;
 } & FormProps;
 
-const defaultProps = {
-  className: '',
+const defaultProps: Partial<ReactAntdFormSchemaProps> = {
   header: null,
   actionsClassName: '',
 };
