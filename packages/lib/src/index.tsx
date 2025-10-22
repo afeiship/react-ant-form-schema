@@ -45,7 +45,7 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
     const _offset = _meta?.wrapperProps?.labelCol?.span || 4;
 
     return (
-      <Form data-component={CLASS_NAME} className={cx(CLASS_NAME, className)} ref={ref} {...rest}>
+      <Form data-component={CLASS_NAME} className={cx(CLASS_NAME, className)} {...rest} ref={ref}>
         {header}
         <NiceForm meta={_meta} />
         <Form.Item
