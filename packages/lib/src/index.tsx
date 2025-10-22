@@ -46,7 +46,7 @@ const ReactAntdFormSchema: FC<ReactAntdFormSchemaProps> = (props) => {
     ...props,
   };
   const footerNode = children as ReactNode;
-  const _meta = deepMerge(DEFAULT_META, meta);
+  const _meta = deepMerge(DEFAULT_META, meta) as NiceFormMeta;
   const _offset = _meta?.wrapperProps?.labelCol?.span || 4;
 
   return (
