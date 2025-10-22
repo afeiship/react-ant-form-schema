@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import React, { FC, ReactNode, RefObject } from 'react';
+import React, { ReactNode } from 'react';
 import { Form, FormInstance, FormProps } from 'antd';
 import NiceForm, { NiceFormMeta } from '@ebay/nice-form-react';
 import { deepMerge } from './utils';
