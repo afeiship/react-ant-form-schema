@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import '@jswork/react-ant-form-schema/src/setup';
+import { config as niceFormConfig } from '@ebay/nice-form-react';
+import antdAdapter from '@ebay/nice-form-react/adapters/antdAdapter';
+
+niceFormConfig.addAdapter(antdAdapter);
+
 import App from './app';
 import './index.scss';
 
