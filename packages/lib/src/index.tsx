@@ -41,10 +41,17 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
     };
     const footerNode = children as ReactNode;
     const _meta = deepMerge(DEFAULT_META, meta) as NiceFormMeta;
-    const _offset = _meta?.wrapperProps?.labelCol?.span || 4;
+    const _layout = _meta?.layout ?? 'horizontal';
+    const _defaultLayoutOffset = _layout === 'horizontal' ? 0 : 4;
+    const _offset = _meta?.wrapperProps?.labelCol?.span ?? _defaultLayoutOffset;
 
     return (
-      <Form data-component={CLASS_NAME} className={cx(CLASS_NAME, className)} ref={ref} {...rest}>
+      <Form
+        data-component={CLASS_NAME}
+        className={cx(CLASS_NAME, className)}
+        layout={_layout}
+        ref={ref}
+        {...rest}>
         {header}
         <NiceForm meta={_meta} />
         <Form.Item
