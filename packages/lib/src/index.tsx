@@ -6,13 +6,25 @@ import { deepMerge } from './utils';
 
 const CLASS_NAME = 'react-ant-form-schema';
 const DEFAULT_META = {
-  layout: 'vertical',
-  wrapperProps: {
-    labelCol: {
-      span: 4,
+  vertical: {
+    layout: 'vertical',
+    wrapperProps: {
+      labelCol: {
+        span: 4,
+      },
+    },
+  },
+
+  horizontal: {
+    layout: 'horizontal',
+    wrapperProps: {
+      labelCol: {
+        span: 24,
+      },
     },
   },
 };
+
 
 export type ReactAntdFormSchemaProps = {
   /**
@@ -31,6 +43,7 @@ export type ReactAntdFormSchemaProps = {
 
 const defaultProps: Partial<ReactAntdFormSchemaProps> = {
   header: null,
+  layout: 'horizontal',
 };
 
 const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaProps>(
@@ -40,7 +53,7 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
       ...props,
     };
     const footerNode = children as ReactNode;
-    const _meta = deepMerge(DEFAULT_META, meta) as NiceFormMeta;
+    const _meta = deepMerge(DEFAULT_META[layout!], meta) as NiceFormMeta;
     const _layout = layout || _meta?.layout;
     const _offset = _layout === 'horizontal' ? _meta?.wrapperProps?.labelCol?.span : 0;
 
