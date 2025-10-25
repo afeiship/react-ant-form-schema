@@ -35,13 +35,13 @@ const defaultProps: Partial<ReactAntdFormSchemaProps> = {
 
 const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaProps>(
   (props, ref) => {
-    const { className, meta, header, children, actionsClassName, ...rest } = {
+    const { className, meta, header, children, actionsClassName, layout, ...rest } = {
       ...defaultProps,
       ...props,
     };
     const footerNode = children as ReactNode;
     const _meta = deepMerge(DEFAULT_META, meta) as NiceFormMeta;
-    const _layout = _meta?.layout ?? 'horizontal';
+    const _layout = layout || _meta?.layout;
     const _offset = _layout === 'horizontal' ? _meta?.wrapperProps?.labelCol?.span : 0;
 
     return (
