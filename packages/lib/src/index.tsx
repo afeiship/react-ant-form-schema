@@ -42,8 +42,7 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
     const footerNode = children as ReactNode;
     const _meta = deepMerge(DEFAULT_META, meta) as NiceFormMeta;
     const _layout = _meta?.layout ?? 'horizontal';
-    const _defaultLayoutOffset = _layout === 'horizontal' ? 4 : 0;
-    const _offset = _meta?.wrapperProps?.labelCol?.span ?? _defaultLayoutOffset;
+    const _offset = _layout === 'horizontal' ? _meta?.wrapperProps?.labelCol?.span : 0;
 
     return (
       <Form
