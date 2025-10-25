@@ -7,16 +7,12 @@ import { deepMerge } from './utils';
 const CLASS_NAME = 'react-ant-form-schema';
 const DEFAULT_META = {
   vertical: {
-    wrapperProps: {
-      labelCol: { span: 24 },
-    },
+    labelWidth: 24,
   },
-
   // 这个是 nice-form-react 默认的 meta 数据，其它设置不生效
+  // wrapperProps.labelCol.span 这个属性是 deprecated 的，请使用 labelWidth
   horizontal: {
-    wrapperProps: {
-      labelCol: { span: 8 },
-    },
+    labelWidth: 4,
   },
 };
 
@@ -48,7 +44,7 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
     };
     const footerNode = children as ReactNode;
     const _meta = deepMerge(DEFAULT_META[layout!], meta) as NiceFormMeta;
-    const _offset = layout === 'horizontal' ? _meta?.wrapperProps?.labelCol?.span : 0;
+    const _offset = layout === 'horizontal' ? _meta?.labelWidth : 0;
 
     return (
       <Form
