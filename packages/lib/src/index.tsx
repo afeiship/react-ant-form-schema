@@ -10,7 +10,7 @@ const DEFAULT_META = {
     layout: 'vertical',
     wrapperProps: {
       labelCol: {
-        span: 4,
+        span: 24,
       },
     },
   },
@@ -19,7 +19,7 @@ const DEFAULT_META = {
     layout: 'horizontal',
     wrapperProps: {
       labelCol: {
-        span: 24,
+        span: 4,
       },
     },
   },
