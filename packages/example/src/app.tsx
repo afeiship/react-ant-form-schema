@@ -124,7 +124,6 @@ function App() {
   return (
     <div className="mx-auto wp-8 mt-10">
       <div className="badge badge-warning absolute right-0 top-0 m-4">Build Time: {BUILD_TIME}</div>
-
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
         {/* Standard Mode */}
         <Card
@@ -146,7 +145,6 @@ function App() {
             </Button>
           </ReactAntdFormSchema>
         </Card>
-
         {/* Groups Mode - Fieldset */}
         <Card
           title="Groups Mode (Fieldset)"
@@ -162,7 +160,6 @@ function App() {
             </Button>
           </ReactAntdFormSchema>
         </Card>
-
         {/* Groups Mode - Tabs */}
         <Card
           title="Groups Mode (Tabs)"

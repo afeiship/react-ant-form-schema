@@ -1,0 +1,390 @@
+# ReactAntdFormSchema
+
+> ReactAntdFormSchema is a powerful dynamic form builder for React that generates forms through configuration objects. Built on top of Ant Design and @ebay/nice-form-react, it provides a flexible, type-safe solution for creating complex forms with minimal code. The component supports multiple rendering modes including standard form, fieldset grouping, and tabs grouping, making it ideal for enterprise applications and data-heavy interfaces.
+
+**Important notes for agents:**
+- ReactAntdFormSchema is a form builder component, not a full UI library
+- Requires Ant Design 5.x and @ebay/nice-form-react as peer dependencies
+- All form fields are configured through meta objects, not JSX
+- Supports TypeScript with full type safety and IntelliSense
+- Three rendering modes: standard, fieldset groups, and tabs groups
+- Form instance from Ant Design must be provided
+
+## Documentation
+- [npm Package](https://www.npmjs.com/package/@jswork/react-ant-form-schema): Package information and installation
+- [GitHub Repository](https://github.com/afeiship/react-ant-form-schema): Source code and issues
+- [Live Demo](https://afeiship.github.io/react-ant-form-schema/): Interactive examples and preview
+
+## Key Features
+- **Configuration-Driven**: Define forms through meta objects instead of writing JSX
+- **Multiple Layouts**: Support for horizontal, vertical, and inline layouts
+- **Grouping Modes**: Fieldset and tabs grouping for organized form sections
+- **Highly Customizable**: Pass through all Ant Design Form properties
+- **Type Safety**: Full TypeScript support with exported types
+- **Lightweight**: Minimal dependencies, leverages existing Ant Design components
+- **Flexible Rendering**: Switch between standard and grouped modes seamlessly
+
+## Installation
+
+```bash
+npm install @jswork/react-ant-form-schema
+```
+
+**Peer Dependencies:**
+```bash
+npm install antd@^5.27.5 @ebay/nice-form-react classnames react react-dom
+```
+
+## Basic Usage
+
+### Standard Mode
+
+```tsx
+import ReactAntdFormSchema from '@jswork/react-ant-form-schema';
+import { Button } from 'antd';
+import { Form } from 'antd';
+
+function App() {
+  const [form] = Form.useForm();
+
+  const meta = {
+    columns: 1,
+    fields: [
+      { key: 'username', label: 'Username', required: true },
+      { key: 'email', label: 'Email', type: 'email', required: true },
+      { key: 'password', label: 'Password', widget: 'password' },
+    ],
+  };
+
+  return (
+    <ReactAntdFormSchema
+      form={form}
+      meta={meta}
+      onFinish={(values) => console.log(values)}>
+      <Button type="primary" htmlType="submit">
+        Submit
+      </Button>
+    </ReactAntdFormSchema>
+  );
+}
+```
+
+### Fieldset Groups Mode
+
+```tsx
+import { GroupsMode } from '@jswork/react-ant-form-schema';
+
+const meta = {
+  groupsMode: GroupsMode.Fieldset, // optional, this is the default
+  groups: [
+    {
+      title: 'Personal Information',
+      meta: {
+        fields: [
+          { key: 'firstName', label: 'First Name', required: true },
+          { key: 'lastName', label: 'Last Name', required: true },
+        ],
+      },
+    },
+    {
+      title: 'Account Information',
+      meta: {
+        fields: [
+          { key: 'email', label: 'Email', required: true },
+          { key: 'phone', label: 'Phone Number' },
+        ],
+      },
+    },
+  ],
+};
+```
+
+### Tabs Groups Mode
+
+```tsx
+import { GroupsMode } from '@jswork/react-ant-form-schema';
+
+const meta = {
+  groupsMode: GroupsMode.Tabs,
+  tabProps: {
+    type: 'card',
+    size: 'large',
+    animated: true,
+  },
+  groups: [
+    {
+      title: 'Basic Info',
+      meta: {
+        fields: [
+          { key: 'name', label: 'Name' },
+          { key: 'description', label: 'Description' },
+        ],
+      },
+    },
+    {
+      title: 'Advanced Settings',
+      meta: {
+        fields: [
+          { key: 'apiKey', label: 'API Key' },
+          { key: 'webhook', label: 'Webhook URL' },
+        ],
+      },
+    },
+  ],
+};
+```
+
+## API Reference
+
+### ReactAntdFormSchema Props
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| meta | `ReactAntdFormSchemaMeta` | Yes | - | Form configuration object |
+| form | `FormInstance` | Yes | - | Ant Design Form instance |
+| header | `ReactNode` | No | `null` | Header content above form |
+| actionsClassName | `string` | No | - | ClassName for action buttons area |
+| layout | `'horizontal' \| 'vertical' \| 'inline'` | No | `'horizontal'` | Form layout mode |
+| onFinish | `(values) => void` | No | - | Form submit callback |
+| ... | `FormProps` | No | - | All other Ant Design Form props |
+
+### ReactAntdFormSchemaMeta
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| fields | `NiceFormField[]` | For standard mode | - | Array of form field definitions |
+| groups | `NiceFormGroup[]` | For grouped mode | - | Array of group definitions |
+| groupsMode | `GroupsMode` | No | `GroupsMode.Fieldset` | Group display mode |
+| tabProps | `TabsProps` | No | - | Props for Tabs component (tabs mode only) |
+| initialValues | `Record<string, any>` | No | - | Initial form values |
+| columns | `number` | No | `1` | Number of columns for fields |
+| ... | `NiceFormMeta` | No | - | Other @ebay/nice-form-react config |
+
+### NiceFormGroup
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| title | `string` | Yes | Group title (shown in legend or tab) |
+| meta | `NiceFormMeta` | Yes | Form configuration for this group |
+
+### GroupsMode Enum
+
+| Value | Description |
+|-------|-------------|
+| `GroupsMode.Fieldset` | Use fieldset/legend for grouping |
+| `GroupsMode.Tabs` | Use Ant Design Tabs for grouping |
+
+## Field Configuration
+
+Field configuration inherits from @ebay/nice-form-react:
+
+```tsx
+const fields = [
+  // Text input
+  { key: 'name', label: 'Name' },
+
+  // Required field
+  { key: 'email', label: 'Email', required: true },
+
+  // Specific type
+  { key: 'age', label: 'Age', type: 'number' },
+  { key: 'website', label: 'Website', type: 'url' },
+
+  // Different widgets
+  { key: 'password', label: 'Password', widget: 'password' },
+  { key: 'bio', label: 'Bio', widget: 'textarea' },
+  { key: 'country', label: 'Country', widget: 'select', widgetProps: { options: [...] } },
+
+  // Help text
+  { key: 'username', label: 'Username', help: 'At least 6 characters' },
+
+  // Custom props
+  {
+    key: 'apiKey',
+    label: 'API Key',
+    widgetProps: {
+      placeholder: 'Enter API Key',
+      prefix: '🔑',
+    },
+  },
+];
+```
+
+## Complete Example
+
+```tsx
+import ReactAntdFormSchema, { GroupsMode } from '@jswork/react-ant-form-schema';
+import { Button, Card, Form } from 'antd';
+
+function UserSettingsForm() {
+  const [form] = Form.useForm();
+
+  const meta = {
+    groupsMode: GroupsMode.Tabs,
+    tabProps: {
+      type: 'card',
+      size: 'large',
+    },
+    initialValues: {
+      username: 'admin',
+      email: 'admin@example.com',
+      theme: 'dark',
+      language: 'zh-CN',
+    },
+    groups: [
+      {
+        title: 'Basic Information',
+        meta: {
+          fields: [
+            { key: 'username', label: 'Username', required: true },
+            { key: 'email', label: 'Email', type: 'email', required: true },
+            { key: 'avatar', label: 'Avatar', widget: 'upload' },
+          ],
+        },
+      },
+      {
+        title: 'Preferences',
+        meta: {
+          fields: [
+            {
+              key: 'theme',
+              label: 'Theme',
+              widget: 'select',
+              widgetProps: {
+                options: [
+                  { label: 'Light', value: 'light' },
+                  { label: 'Dark', value: 'dark' },
+                  { label: 'Auto', value: 'auto' },
+                ],
+              },
+            },
+            {
+              key: 'language',
+              label: 'Language',
+              widget: 'radio',
+              widgetProps: {
+                options: [
+                  { label: '简体中文', value: 'zh-CN' },
+                  { label: 'English', value: 'en' },
+                ],
+              },
+            },
+          ],
+        },
+      },
+      {
+        title: 'Notifications',
+        meta: {
+          fields: [
+            { key: 'emailNotify', label: 'Email Notifications', widget: 'switch' },
+            { key: 'smsNotify', label: 'SMS Notifications', widget: 'switch' },
+            { key: 'pushNotify', label: 'Push Notifications', widget: 'switch' },
+          ],
+        },
+      },
+    ],
+  };
+
+  const handleSubmit = (values) => {
+    console.log('Form data:', values);
+  };
+
+  return (
+    <Card title="User Settings">
+      <ReactAntdFormSchema
+        form={form}
+        meta={meta}
+        onFinish={handleSubmit}
+        layout="horizontal">
+        <Button type="primary" htmlType="submit">
+          Save Settings
+        </Button>
+        <Button style={{ marginLeft: 8 }} onClick={() => form.resetFields()}>
+          Reset
+        </Button>
+      </ReactAntdFormSchema>
+    </Card>
+  );
+}
+```
+
+## Layout Control
+
+### Horizontal Layout (Default)
+
+```tsx
+<ReactAntdFormSchema
+  layout="horizontal"
+  meta={{
+    labelWidth: 4,  // Label width (24 grid system)
+    columns: 1,     // Number of columns
+    fields: [...],
+  }}
+/>
+```
+
+### Vertical Layout
+
+```tsx
+<ReactAntdFormSchema
+  layout="vertical"
+  meta={{
+    labelWidth: 24,
+    fields: [...],
+  }}
+/>
+```
+
+## Usage Notes for Agents
+
+- **Form Instance Required**: Must pass `Form.useForm()` instance from Ant Design
+- **Unique Field Keys**: All field `key` values must be unique
+- **Group Mode Detection**: Automatically enters group mode when `groups` is provided
+- **Tab Props Only for Tabs Mode**: `tabProps` only applies when `groupsMode` is `Tabs`
+- **Meta Merging**: Each group's meta merges with global meta
+- **Field Configuration**: Inherits all @ebay/nice-form-react field options
+
+## Type Exports
+
+```typescript
+import ReactAntdFormSchema, {
+  type ReactAntdFormSchemaProps,
+  type ReactAntdFormSchemaMeta,
+  type NiceFormGroup,
+  GroupsMode,
+} from '@jswork/react-ant-form-schema';
+```
+
+## Architecture
+
+```
+packages/lib/src/
+├── index.tsx                    # Main component
+├── types.ts                     # Type definitions
+├── main.tsx                     # Export entry point
+├── utils.ts                     # Utility functions
+└── components/                  # Internal components
+    ├── default-form.tsx         # Standard mode renderer
+    ├── fieldset-groups.tsx      # Fieldset groups renderer
+    └── tabs-groups.tsx          # Tabs groups renderer
+```
+
+## Dependencies
+
+### Required
+- `react` >= 18.0.0
+- `react-dom` >= 18.0.0
+- `antd` >= 5.27.5
+- `@ebay/nice-form-react` >= 2.0.3
+- `classnames` >= 2.0.0
+
+### Development
+- `typescript` >= 5.2.0
+- `@types/react` >= 18.0.0
+- `@types/react-dom` >= 18.0.0
+
+## Related Resources
+
+- [Ant Design Form Documentation](https://ant.design/components/form)
+- [@ebay/nice-form-react Documentation](https://github.com/eBay/nice-form-react)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)

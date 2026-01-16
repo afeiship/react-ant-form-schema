@@ -1,5 +1,5 @@
 import { TabsProps } from 'antd';
-import { NiceFormMeta } from '@ebay/nice-form-react';
+import { NiceFormMeta, NiceFormField } from '@ebay/nice-form-react';
 import { ReactNode } from 'react';
 import { FormProps } from 'antd';
 
@@ -19,7 +19,12 @@ export type NiceFormGroup = {
   meta: NiceFormMeta;
 };
 
-export type ReactAntdFormSchemaMeta = NiceFormMeta & {
+export type ReactAntdFormSchemaMeta = Omit<NiceFormMeta, 'fields'> & {
+  /**
+   * Form fields for standard mode.
+   * Either fields or groups must be provided.
+   */
+  fields?: NiceFormField[];
   /**
    * Form groups for grouped mode.
    * When groups is provided, fields will be rendered in groups.
