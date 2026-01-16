@@ -1,10 +1,10 @@
 import cx from 'classnames';
 import React, { type ReactNode } from 'react';
-import { Form, FormInstance } from 'antd';
+import { Form, type FormInstance } from 'antd';
 import DefaultForm from './components/default-form';
 import FieldsetGroups from './components/fieldset-groups';
 import TabsGroups from './components/tabs-groups';
-import { ReactAntdFormSchemaProps } from './types';
+import { ReactAntdFormSchemaProps, GroupsMode } from './types';
 
 const CLASS_NAME = 'react-ant-form-schema';
 const DEFAULT_META = {
@@ -34,12 +34,12 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
 
     // Check if groups mode is enabled
     const isGroupsMode = meta.groups && meta.groups.length > 0;
-    const groupsMode = meta.groupsMode || 'fieldset';
+    const groupsMode = meta.groupsMode || GroupsMode.Fieldset;
 
     // Render form content based on mode
     const renderContent = () => {
       if (isGroupsMode) {
-        if (groupsMode === 'tabs') {
+        if (groupsMode === GroupsMode.Tabs) {
           return <TabsGroups groups={meta.groups!} defaultMeta={defaultMeta} tabProps={meta.tabProps} />;
         }
         // fieldset mode (default)

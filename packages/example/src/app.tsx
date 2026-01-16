@@ -1,4 +1,4 @@
-import ReactAntdFormSchema from '@jswork/react-ant-form-schema/src/main';
+import ReactAntdFormSchema, { GroupsMode } from '@jswork/react-ant-form-schema/src/main';
 import React, { useEffect } from 'react';
 import { Button, Card, Form, Space } from 'antd';
 import NiceForm, { NiceFormMeta } from '@ebay/nice-form-react';
@@ -84,7 +84,7 @@ function App() {
   const metaWithTabs = {
     columns: 1,
     rowGap: 10,
-    groupsMode: 'tabs' as const,
+    groupsMode: GroupsMode.Tabs,
     tabProps: {
       type: 'card',
       size: 'large',

@@ -3,7 +3,10 @@ import { NiceFormMeta } from '@ebay/nice-form-react';
 import { ReactNode } from 'react';
 import { FormProps } from 'antd';
 
-export type GroupsMode = 'fieldset' | 'tabs';
+export enum GroupsMode {
+  Fieldset = 'fieldset',
+  Tabs = 'tabs',
+}
 
 export type NiceFormGroup = {
   /**
