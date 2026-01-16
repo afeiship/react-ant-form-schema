@@ -1,10 +1,11 @@
 import cx from 'classnames';
 import React, { type ReactNode } from 'react';
 import { Form, type FormInstance } from 'antd';
+import { NiceFormMeta } from '@ebay/nice-form-react';
 import DefaultForm from './components/default-form';
 import FieldsetGroups from './components/fieldset-groups';
 import TabsGroups from './components/tabs-groups';
-import { ReactAntdFormSchemaProps, GroupsMode } from './types';
+import { GroupsMode, ReactAntdFormSchemaProps } from './types';
 
 const CLASS_NAME = 'react-ant-form-schema';
 const DEFAULT_META = {
@@ -46,7 +47,7 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
         return <FieldsetGroups groups={meta.groups!} defaultMeta={defaultMeta} />;
       }
       // standard mode
-      return <DefaultForm meta={{ ...defaultMeta, ...meta }} />;
+      return <DefaultForm meta={{ ...defaultMeta, ...meta } as NiceFormMeta} />;
     };
 
     return (
