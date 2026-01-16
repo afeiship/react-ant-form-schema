@@ -6,6 +6,9 @@
 [![size][size-image]][size-url]
 [![download][download-image]][download-url]
 
+## llms.txt
+- https://github.com/afeiship/react-ant-form-schema/blob/main/llms.txt
+
 ## installation
 ```shell
 npm install -S @jswork/react-ant-form-schema
