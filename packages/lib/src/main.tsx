@@ -1,5 +1,4 @@
 import ReactAntdFormSchema from '.';
-import { ReactAntdFormSchemaProps } from '.';
+export type { ReactAntdFormSchemaProps, ReactAntdFormSchemaMeta } from './types';
 
 export default ReactAntdFormSchema;
-export type { ReactAntdFormSchemaProps };

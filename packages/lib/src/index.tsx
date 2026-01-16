@@ -1,21 +1,10 @@
 import cx from 'classnames';
-import React, { ReactNode } from 'react';
-import { Form, FormInstance, FormProps, Tabs, TabsProps } from 'antd';
-import NiceForm, { NiceFormMeta } from '@ebay/nice-form-react';
-import { deepMerge } from './utils';
-
-export type GroupsMode = 'fieldset' | 'tabs';
-
-export type NiceFormGroup = {
-  /**
-   * The group title displayed in legend.
-   */
-  title: string;
-  /**
-   * The form meta for this group.
-   */
-  meta: NiceFormMeta;
-};
+import React, { type ReactNode } from 'react';
+import { Form, FormInstance } from 'antd';
+import DefaultForm from './components/default-form';
+import FieldsetGroups from './components/fieldset-groups';
+import TabsGroups from './components/tabs-groups';
+import { ReactAntdFormSchemaProps } from './types';
 
 const CLASS_NAME = 'react-ant-form-schema';
 const DEFAULT_META = {
@@ -29,39 +18,6 @@ const DEFAULT_META = {
   },
 };
 
-export type ReactAntdFormSchemaMeta = NiceFormMeta & {
-  /**
-   * Form groups for grouped mode.
-   * When groups is provided, fields will be rendered in groups.
-   */
-  groups?: NiceFormGroup[];
-  /**
-   * Display mode for groups.
-   * - 'fieldset': Render groups as fieldset/legend elements
-   * - 'tabs': Render groups as tabs
-   */
-  groupsMode?: GroupsMode;
-  /**
-   * Props to pass to Tabs component when groupsMode is 'tabs'.
-   */
-  tabProps?: TabsProps;
-};
-
-export type ReactAntdFormSchemaProps = {
-  /**
-   * The form schema meta data.
-   */
-  meta: ReactAntdFormSchemaMeta;
-  /**
-   * The header content.
-   */
-  header?: ReactNode;
-  /**
-   * The form actions className.
-   */
-  actionsClassName?: string;
-} & FormProps;
-
 const defaultProps: Partial<ReactAntdFormSchemaProps> = {
   header: null,
   layout: 'horizontal',
@@ -74,46 +30,23 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
       ...props,
     };
     const footerNode = children as ReactNode;
-    const _meta = deepMerge(DEFAULT_META[layout!], meta) as NiceFormMeta;
-    const _offset = layout === 'horizontal' ? _meta?.labelWidth : 0;
+    const defaultMeta = DEFAULT_META[layout!];
 
     // Check if groups mode is enabled
     const isGroupsMode = meta.groups && meta.groups.length > 0;
     const groupsMode = meta.groupsMode || 'fieldset';
 
-    const renderGroupsContent = () => {
-      if (groupsMode === 'tabs') {
-        const tabItems = meta.groups!.map((group, index) => {
-          const groupMeta = deepMerge(DEFAULT_META[layout!], group.meta) as NiceFormMeta;
-          return {
-            key: String(index),
-            label: group.title,
-            children: <NiceForm meta={groupMeta} />,
-          };
-        });
-        return (
-          <Tabs
-            items={tabItems}
-            className="react-ant-form-schema-tabs"
-            {...meta.tabProps}
-          />
-        );
-      } else {
+    // Render form content based on mode
+    const renderContent = () => {
+      if (isGroupsMode) {
+        if (groupsMode === 'tabs') {
+          return <TabsGroups groups={meta.groups!} defaultMeta={defaultMeta} tabProps={meta.tabProps} />;
+        }
         // fieldset mode (default)
-        return (
-          <div className="react-ant-form-schema-groups">
-            {meta.groups?.map((group, index) => {
-              const groupMeta = deepMerge(DEFAULT_META[layout!], group.meta) as NiceFormMeta;
-              return (
-                <fieldset key={index} className="react-ant-form-schema-fieldset">
-                  <legend className="react-ant-form-schema-legend">{group.title}</legend>
-                  <NiceForm meta={groupMeta} />
-                </fieldset>
-              );
-            })}
-          </div>
-        );
+        return <FieldsetGroups groups={meta.groups!} defaultMeta={defaultMeta} />;
       }
+      // standard mode
+      return <DefaultForm meta={{ ...defaultMeta, ...meta }} />;
     };
 
     return (
@@ -124,9 +57,9 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
         ref={ref}
         {...rest}>
         {header}
-        {isGroupsMode ? renderGroupsContent() : <NiceForm meta={_meta} />}
+        {renderContent()}
         <Form.Item
-          wrapperCol={{ offset: _offset }}
+          wrapperCol={{ offset: layout === 'horizontal' ? defaultMeta?.labelWidth : 0 }}
           className={actionsClassName}
           style={{ marginBottom: 0 }}>
           {footerNode}
