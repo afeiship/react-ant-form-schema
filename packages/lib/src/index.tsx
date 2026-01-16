@@ -4,6 +4,17 @@ import { Form, FormInstance, FormProps } from 'antd';
 import NiceForm, { NiceFormMeta } from '@ebay/nice-form-react';
 import { deepMerge } from './utils';
 
+export type NiceFormGroup = {
+  /**
+   * The group title displayed in legend.
+   */
+  title: string;
+  /**
+   * The form meta for this group.
+   */
+  meta: NiceFormMeta;
+};
+
 const CLASS_NAME = 'react-ant-form-schema';
 const DEFAULT_META = {
   vertical: {
@@ -16,11 +27,19 @@ const DEFAULT_META = {
   },
 };
 
+export type ReactAntdFormSchemaMeta = NiceFormMeta & {
+  /**
+   * Form groups for fieldset mode.
+   * When groups is provided, fields will be rendered in separate fieldsets.
+   */
+  groups?: NiceFormGroup[];
+};
+
 export type ReactAntdFormSchemaProps = {
   /**
    * The form schema meta data.
    */
-  meta: NiceFormMeta;
+  meta: ReactAntdFormSchemaMeta;
   /**
    * The header content.
    */
@@ -46,6 +65,9 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
     const _meta = deepMerge(DEFAULT_META[layout!], meta) as NiceFormMeta;
     const _offset = layout === 'horizontal' ? _meta?.labelWidth : 0;
 
+    // Check if groups mode is enabled
+    const isGroupsMode = meta.groups && meta.groups.length > 0;
+
     return (
       <Form
         data-component={CLASS_NAME}
@@ -54,7 +76,21 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
         ref={ref}
         {...rest}>
         {header}
-        <NiceForm meta={_meta} />
+        {isGroupsMode ? (
+          <div className="react-ant-form-schema-groups">
+            {meta.groups?.map((group, index) => {
+              const groupMeta = deepMerge(DEFAULT_META[layout!], group.meta) as NiceFormMeta;
+              return (
+                <fieldset key={index} className="react-ant-form-schema-fieldset">
+                  <legend className="react-ant-form-schema-legend">{group.title}</legend>
+                  <NiceForm meta={groupMeta} />
+                </fieldset>
+              );
+            })}
+          </div>
+        ) : (
+          <NiceForm meta={_meta} />
+        )}
         <Form.Item
           wrapperCol={{ offset: _offset }}
           className={actionsClassName}
@@ -63,7 +99,7 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
         </Form.Item>
       </Form>
     );
-  }
+  },
 );
 
 export default ReactAntdFormSchema;
