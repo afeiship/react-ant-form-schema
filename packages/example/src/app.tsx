@@ -6,6 +6,7 @@ import NiceForm, { NiceFormMeta } from '@ebay/nice-form-react';
 function App() {
   const [form] = Form.useForm();
   const [form2] = Form.useForm();
+  const [form3] = Form.useForm();
   const [loading, setLoading] = React.useState(false);
 
   // Standard mode example
@@ -33,7 +34,38 @@ function App() {
     ],
   };
 
-  // Groups mode example
+  // Shared groups data
+  const groupsData = [
+    {
+      title: 'Personal Information',
+      meta: {
+        fields: [
+          { key: 'firstName', label: 'First Name', required: true },
+          { key: 'lastName', label: 'Last Name', required: true },
+        ],
+      } as NiceFormMeta,
+    },
+    {
+      title: 'Account Information',
+      meta: {
+        fields: [
+          { key: 'email', label: 'Email', type: 'email', required: true },
+          { key: 'phone', label: 'Phone Number' },
+        ],
+      } as NiceFormMeta,
+    },
+    {
+      title: 'Contact Information',
+      meta: {
+        fields: [
+          { key: 'address', label: 'Address' },
+          { key: 'city', label: 'City' },
+        ],
+      } as NiceFormMeta,
+    },
+  ];
+
+  // Groups mode (fieldset)
   const metaWithGroups = {
     columns: 1,
     rowGap: 10,
@@ -45,35 +77,28 @@ function App() {
       address: '123 Main St',
       city: 'New York',
     },
-    groups: [
-      {
-        title: 'Personal Information',
-        meta: {
-          fields: [
-            { key: 'firstName', label: 'First Name', required: true },
-            { key: 'lastName', label: 'Last Name', required: true },
-          ],
-        } as NiceFormMeta,
-      },
-      {
-        title: 'Account Information',
-        meta: {
-          fields: [
-            { key: 'email', label: 'Email', type: 'email', required: true },
-            { key: 'phone', label: 'Phone Number' },
-          ],
-        } as NiceFormMeta,
-      },
-      {
-        title: 'Contact Information',
-        meta: {
-          fields: [
-            { key: 'address', label: 'Address' },
-            { key: 'city', label: 'City' },
-          ],
-        } as NiceFormMeta,
-      },
-    ],
+    groups: groupsData,
+  };
+
+  // Groups mode (tabs)
+  const metaWithTabs = {
+    columns: 1,
+    rowGap: 10,
+    groupsMode: 'tabs' as const,
+    tabProps: {
+      type: 'card',
+      size: 'large',
+      tabBarStyle: { marginBottom: 16 },
+    } as const,
+    initialValues: {
+      firstName: 'Jane',
+      lastName: 'Smith',
+      email: 'jane@example.com',
+      phone: '9876543210',
+      address: '456 Oak Ave',
+      city: 'Los Angeles',
+    },
+    groups: groupsData,
   };
 
   useEffect(() => {
@@ -85,6 +110,10 @@ function App() {
         password: '123456-update',
       });
       form2.setFieldsValue({
+        firstName: 'John',
+        lastName: 'Doe',
+      });
+      form3.setFieldsValue({
         firstName: 'Jane',
         lastName: 'Smith',
       });
@@ -118,7 +147,7 @@ function App() {
           </ReactAntdFormSchema>
         </Card>
 
-        {/* Groups Mode */}
+        {/* Groups Mode - Fieldset */}
         <Card
           title="Groups Mode (Fieldset)"
           classNames={{ body: 'bg-gray-100' }}
@@ -127,7 +156,23 @@ function App() {
             className="p-5"
             form={form2}
             meta={metaWithGroups}
-            onFinish={(values) => console.log('Groups form:', values)}>
+            onFinish={(values) => console.log('Fieldset form:', values)}>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </ReactAntdFormSchema>
+        </Card>
+
+        {/* Groups Mode - Tabs */}
+        <Card
+          title="Groups Mode (Tabs)"
+          classNames={{ body: 'bg-gray-100' }}
+          loading={loading}>
+          <ReactAntdFormSchema
+            className="p-5"
+            form={form3}
+            meta={metaWithTabs}
+            onFinish={(values) => console.log('Tabs form:', values)}>
             <Button type="primary" htmlType="submit">
               Submit
             </Button>

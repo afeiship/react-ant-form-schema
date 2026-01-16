@@ -1,8 +1,10 @@
 import cx from 'classnames';
 import React, { ReactNode } from 'react';
-import { Form, FormInstance, FormProps } from 'antd';
+import { Form, FormInstance, FormProps, Tabs, TabsProps } from 'antd';
 import NiceForm, { NiceFormMeta } from '@ebay/nice-form-react';
 import { deepMerge } from './utils';
+
+export type GroupsMode = 'fieldset' | 'tabs';
 
 export type NiceFormGroup = {
   /**
@@ -29,10 +31,20 @@ const DEFAULT_META = {
 
 export type ReactAntdFormSchemaMeta = NiceFormMeta & {
   /**
-   * Form groups for fieldset mode.
-   * When groups is provided, fields will be rendered in separate fieldsets.
+   * Form groups for grouped mode.
+   * When groups is provided, fields will be rendered in groups.
    */
   groups?: NiceFormGroup[];
+  /**
+   * Display mode for groups.
+   * - 'fieldset': Render groups as fieldset/legend elements
+   * - 'tabs': Render groups as tabs
+   */
+  groupsMode?: GroupsMode;
+  /**
+   * Props to pass to Tabs component when groupsMode is 'tabs'.
+   */
+  tabProps?: TabsProps;
 };
 
 export type ReactAntdFormSchemaProps = {
@@ -67,16 +79,28 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
 
     // Check if groups mode is enabled
     const isGroupsMode = meta.groups && meta.groups.length > 0;
+    const groupsMode = meta.groupsMode || 'fieldset';
 
-    return (
-      <Form
-        data-component={CLASS_NAME}
-        className={cx(CLASS_NAME, className)}
-        layout={layout}
-        ref={ref}
-        {...rest}>
-        {header}
-        {isGroupsMode ? (
+    const renderGroupsContent = () => {
+      if (groupsMode === 'tabs') {
+        const tabItems = meta.groups!.map((group, index) => {
+          const groupMeta = deepMerge(DEFAULT_META[layout!], group.meta) as NiceFormMeta;
+          return {
+            key: String(index),
+            label: group.title,
+            children: <NiceForm meta={groupMeta} />,
+          };
+        });
+        return (
+          <Tabs
+            items={tabItems}
+            className="react-ant-form-schema-tabs"
+            {...meta.tabProps}
+          />
+        );
+      } else {
+        // fieldset mode (default)
+        return (
           <div className="react-ant-form-schema-groups">
             {meta.groups?.map((group, index) => {
               const groupMeta = deepMerge(DEFAULT_META[layout!], group.meta) as NiceFormMeta;
@@ -88,9 +112,19 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
               );
             })}
           </div>
-        ) : (
-          <NiceForm meta={_meta} />
-        )}
+        );
+      }
+    };
+
+    return (
+      <Form
+        data-component={CLASS_NAME}
+        className={cx(CLASS_NAME, className)}
+        layout={layout}
+        ref={ref}
+        {...rest}>
+        {header}
+        {isGroupsMode ? renderGroupsContent() : <NiceForm meta={_meta} />}
         <Form.Item
           wrapperCol={{ offset: _offset }}
           className={actionsClassName}
