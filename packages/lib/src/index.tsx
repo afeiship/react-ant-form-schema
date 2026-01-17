@@ -34,7 +34,7 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
     const defaultMeta = DEFAULT_META[layout!];
 
     // Check if groups mode is enabled
-    const isGroupsMode = meta.groups && meta.groups.length > 0;
+    const isGroupsMode = Boolean(meta.groups?.length);
     const groupsMode = meta.groupsMode || GroupsMode.Fieldset;
 
     // Render form content based on mode
