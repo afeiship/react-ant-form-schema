@@ -44,7 +44,7 @@ const ReactAntdFormSchema = React.forwardRef<FormInstance, ReactAntdFormSchemaPr
           return <TabsGroups groups={meta.groups!} defaultMeta={defaultMeta} tabProps={meta.tabProps} />;
         }
         // fieldset mode (default)
-        return <FieldsetGroups groups={meta.groups!} defaultMeta={defaultMeta} />;
+        return <FieldsetGroups groups={meta.groups!} defaultMeta={defaultMeta} fieldsetSx={meta.fieldsetSx} />;
       }
       // standard mode
       return <DefaultForm meta={{ ...defaultMeta, ...meta } as NiceFormMeta} />;

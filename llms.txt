@@ -69,6 +69,42 @@ function App() {
 }
 ```
 
+### Using Ref Instead of Form Prop
+
+```tsx
+import ReactAntdFormSchema from '@jswork/react-ant-form-schema';
+import { Button } from 'antd';
+import { Form } from 'antd';
+
+function App() {
+  const formRef = React.useRef<FormInstance>(null);
+
+  const meta = {
+    fields: [
+      { key: 'username', label: 'Username', required: true },
+      { key: 'email', label: 'Email', required: true },
+    ],
+  };
+
+  const handleSubmit = () => {
+    // Access form via ref
+    formRef.current?.validateFields().then((values) => {
+      console.log('Form values:', values);
+    });
+  };
+
+  return (
+    <ReactAntdFormSchema
+      ref={formRef}
+      meta={meta}>
+      <Button type="primary" onClick={handleSubmit}>
+        Submit
+      </Button>
+    </ReactAntdFormSchema>
+  );
+}
+```
+
 ### Fieldset Groups Mode
 
 ```tsx
@@ -76,6 +112,41 @@ import { GroupsMode } from '@jswork/react-ant-form-schema';
 
 const meta = {
   groupsMode: GroupsMode.Fieldset, // optional, this is the default
+  groups: [
+    {
+      title: 'Personal Information',
+      meta: {
+        fields: [
+          { key: 'firstName', label: 'First Name', required: true },
+          { key: 'lastName', label: 'Last Name', required: true },
+        ],
+      },
+    },
+    {
+      title: 'Account Information',
+      meta: {
+        fields: [
+          { key: 'email', label: 'Email', required: true },
+          { key: 'phone', label: 'Phone Number' },
+        ],
+      },
+    },
+  ],
+};
+```
+
+### Fieldset Groups with Custom Styling
+
+```tsx
+import { GroupsMode } from '@jswork/react-ant-form-schema';
+
+const meta = {
+  groupsMode: GroupsMode.Fieldset,
+  fieldsetSx: {
+    container: 'custom-fieldset-container',
+    fieldset: 'bordered-fieldset',
+    legend: 'text-primary font-bold',
+  },
   groups: [
     {
       title: 'Personal Information',
@@ -141,24 +212,38 @@ const meta = {
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | meta | `ReactAntdFormSchemaMeta` | Yes | - | Form configuration object |
-| form | `FormInstance` | Yes | - | Ant Design Form instance |
+| form | `FormInstance` | No* | - | Ant Design Form instance (or use ref) |
+| ref | `React.Ref<FormInstance>` | No* | - | Forwarded ref to access Form instance |
 | header | `ReactNode` | No | `null` | Header content above form |
 | actionsClassName | `string` | No | - | ClassName for action buttons area |
 | layout | `'horizontal' \| 'vertical' \| 'inline'` | No | `'horizontal'` | Form layout mode |
 | onFinish | `(values) => void` | No | - | Form submit callback |
 | ... | `FormProps` | No | - | All other Ant Design Form props |
 
+*Either `form` prop or `ref` must be provided to access the Form instance. |
+
 ### ReactAntdFormSchemaMeta
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| fields | `NiceFormField[]` | For standard mode | - | Array of form field definitions |
-| groups | `NiceFormGroup[]` | For grouped mode | - | Array of group definitions |
-| groupsMode | `GroupsMode` | No | `GroupsMode.Fieldset` | Group display mode |
+| fields | `NiceFormField[]` | Conditional* | - | Array of form field definitions (required in standard mode) |
+| groups | `NiceFormGroup[]` | Conditional* | - | Array of group definitions (required in grouped mode) |
+| groupsMode | `GroupsMode` | No | `GroupsMode.Fieldset` | Group display mode (when groups provided) |
 | tabProps | `TabsProps` | No | - | Props for Tabs component (tabs mode only) |
+| fieldsetSx | `FieldsetStyle` | No | - | Custom classNames for fieldset elements (fieldset mode only) |
 | initialValues | `Record<string, any>` | No | - | Initial form values |
 | columns | `number` | No | `1` | Number of columns for fields |
 | ... | `NiceFormMeta` | No | - | Other @ebay/nice-form-react config |
+
+*Either `fields` OR `groups` must be provided. Use `fields` for standard mode, or `groups` for fieldset/tabs grouped mode.
+
+### FieldsetStyle
+
+| Property | Type | Description |
+|----------|------|-------------|
+| container | `string` | ClassName for the outer container div |
+| fieldset | `string` | ClassName for the fieldset element |
+| legend | `string` | ClassName for the legend element |
 
 ### NiceFormGroup
 
@@ -337,12 +422,15 @@ function UserSettingsForm() {
 
 ## Usage Notes for Agents
 
-- **Form Instance Required**: Must pass `Form.useForm()` instance from Ant Design
+- **Form Instance Required**: Must pass `Form.useForm()` instance via `form` prop OR use `ref` to access the Form instance
+- **Ref Forwarding**: Component supports React.forwardRef to access Form instance imperatively
 - **Unique Field Keys**: All field `key` values must be unique
 - **Group Mode Detection**: Automatically enters group mode when `groups` is provided
 - **Tab Props Only for Tabs Mode**: `tabProps` only applies when `groupsMode` is `Tabs`
+- **FieldsetSx Only for Fieldset Mode**: `fieldsetSx` only applies when `groupsMode` is `Fieldset` (or default)
 - **Meta Merging**: Each group's meta merges with global meta
 - **Field Configuration**: Inherits all @ebay/nice-form-react field options
+- **Fields vs Groups**: Provide `fields` for standard mode OR `groups` for grouped mode, never both
 
 ## Type Exports
 

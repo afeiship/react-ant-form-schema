@@ -40,6 +40,14 @@ export type ReactAntdFormSchemaMeta = Omit<NiceFormMeta, 'fields'> & {
    * Props to pass to Tabs component when groupsMode is 'tabs'.
    */
   tabProps?: TabsProps;
+  /**
+   * Custom classNames for fieldset groups mode elements.
+   */
+  fieldsetSx?: {
+    container?: string;
+    fieldset?: string;
+    legend?: string;
+  };
 };
 
 export type ReactAntdFormSchemaProps = {

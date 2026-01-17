@@ -6,21 +6,21 @@ import cx from 'classnames';
 export type FieldsetGroupsProps = {
   groups: NiceFormGroup[];
   defaultMeta: Record<string, unknown>;
-  fieldsetsSx?: {
+  fieldsetSx?: {
     container?: string;
     fieldset?: string;
     legend?: string;
   }
 };
 
-const FieldsetGroups = ({ groups, defaultMeta, fieldsetsSx }: FieldsetGroupsProps) => {
+const FieldsetGroups = ({ groups, defaultMeta, fieldsetSx }: FieldsetGroupsProps) => {
   return (
-    <div className={cx('react-ant-form-schema-fieldset-groups', fieldsetsSx?.container)}>
+    <div className={cx('react-ant-form-schema-fieldset-groups', fieldsetSx?.container)}>
       {groups.map((group, index) => {
         const groupMeta = { ...defaultMeta, ...group.meta } as NiceFormMeta;
         return (
-          <fieldset key={index} className={fieldsetsSx?.fieldset}>
-            <legend className={fieldsetsSx?.legend}>{group.title}</legend>
+          <fieldset key={index} className={fieldsetSx?.fieldset}>
+            <legend className={fieldsetSx?.legend}>{group.title}</legend>
             <NiceForm meta={groupMeta} />
           </fieldset>
         );
