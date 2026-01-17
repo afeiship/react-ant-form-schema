@@ -4,7 +4,7 @@ import { NiceFormGroup } from '../types';
 
 export type FieldsetGroupsProps = {
   groups: NiceFormGroup[];
-  defaultMeta: Record<string, any>;
+  defaultMeta: Record<string, unknown>;
 };
 
 const FieldsetGroups = ({ groups, defaultMeta }: FieldsetGroupsProps) => {

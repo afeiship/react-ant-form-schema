@@ -5,7 +5,7 @@ import { NiceFormGroup } from '../types';
 
 export type TabsGroupsProps = {
   groups: NiceFormGroup[];
-  defaultMeta: Record<string, any>;
+  defaultMeta: Record<string, unknown>;
   tabProps?: TabsProps;
 };
 
